@@ -8,10 +8,12 @@ export class AuthController {
     private authService: AuthService
   ) {}
 
-  @Post('govbr/callback')
-  async govBrCallback(
-    @Body('code') code: string
-  ) {
-    return this.authService.loginGovBr(code)
-  }
+ @Post('firebase')
+loginFirebase(
+  @Body('idToken')
+  idToken: string
+) {
+  return this.authService
+    .loginFirebase(idToken)
+}
 }
