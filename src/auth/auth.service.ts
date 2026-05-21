@@ -34,8 +34,7 @@ export class AuthService {
         user =
           await this.prisma.user.create({
             data: {
-              govId: decodedToken.uid,
-              cpf: '',
+              id: decodedToken.uid,
               name:
                 decodedToken.name || '',
               email:
