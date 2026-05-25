@@ -13,6 +13,7 @@ loginFirebase(
   @Body('idToken')
   idToken: string
 ) {
+  console.log('[AuthController] /auth/firebase received idToken:', idToken);
   return this.authService
     .loginFirebase(idToken)
 }
