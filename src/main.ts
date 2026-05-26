@@ -1,49 +1,18 @@
-﻿import 'dotenv/config'
-import { NestFactory } from '@nestjs/core'
-import { ExpressAdapter } from '@nestjs/platform-express'
+﻿import 'dotenv/config';
+import { NestFactory } from '@nestjs/core';
+import { AppModule } from './app.module';
 
-import serverlessExpress from '@codegenie/serverless-express'
-import express from 'express'
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule);
 
-import { AppModule } from './app.module'
+  // Habilita o CORS para o seu colega do Front-end conseguir acessar
+  app.enableCors();
 
-const expressApp = express()
-let server: any
-let appInitialized = false
-
-async function createNestApp() {
-  if (appInitialized) {
-    return
-  }
-
-  const app = await NestFactory.create(
-    AppModule,
-    new ExpressAdapter(expressApp)
-  )
-
-  app.enableCors()
-  await app.init()
-  appInitialized = true
+  // O Render fornece a porta automaticamente através da variável process.env.PORT
+  const port = process.env.PORT || 3000;
+  
+  await app.listen(port, '0.0.0.0'); // O '0.0.0.0' é essencial para o Render conseguir mapear a porta
+  console.log(`Application is running on: ${await app.getUrl()}`);
 }
 
-async function bootstrapLocal() {
-  await createNestApp()
-  const port = parseInt(process.env.PORT || '3000', 10)
-  await expressApp.listen(port)
-  console.log(`Application is running on: http://localhost:${port}`)
-}
-
-async function getServerlessHandler() {
-  await createNestApp()
-  server = server ?? serverlessExpress({ app: expressApp })
-  return server
-}
-
-if (require.main === module) {
-  void bootstrapLocal()
-}
-
-export default async function handler(req: any, res: any) {
-  const srv = await getServerlessHandler()
-  return srv(req, res)
-}
+bootstrap();
