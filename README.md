@@ -56,28 +56,6 @@ npm install
 
 ---
 
-## 3. Configurar variáveis de ambiente
-
-Criar arquivo `.env`:
-
-```env
-JWT_SECRET="secret"
-
-DATABASE_URL="postgresql://..."
-
-FIREBASE_PROJECT_ID="backendlicitacesso"
-
-FIREBASE_CLIENT_EMAIL="firebase-adminsdk..."
-
-FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\nSUA_KEY\n-----END PRIVATE KEY-----\n"
-
-MONGO_URI="mongodb://..."
-
-MONGO_DB="licitacesso"
-```
-
----
-
 # Prisma
 
 ## Gerar client Prisma
