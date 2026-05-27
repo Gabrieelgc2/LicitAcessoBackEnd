@@ -1,98 +1,420 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# LicitAcesso Backend API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Backend da plataforma **LicitAcesso**, desenvolvido com NestJS, Prisma ORM, Firebase Authentication, PostgreSQL (Supabase) e MongoDB.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+A API é responsável por:
 
-## Description
+- autenticação de usuários via Google/Firebase
+- gerenciamento de usuários
+- análise de oportunidades/licitações
+- disponibilização de dados agregados para dashboards e gráficos
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+---
 
-## Project setup
+# Tecnologias Utilizadas
 
-```bash
-$ npm install
-```
+- NestJS
+- TypeScript
+- Prisma ORM
+- PostgreSQL (Supabase)
+- MongoDB
+- Firebase Admin SDK
+- JWT Authentication
+- Render.com
 
-## Compile and run the project
+---
+
+# Estrutura do Projeto
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+src/
+ ├── auth/
+ ├── firebase/
+ ├── oportunidades/
+ ├── prisma/
+ ├── app.module.ts
+ └── main.ts
 ```
 
-## Run tests
+---
+
+# Instalação
+
+## 1. Clonar o projeto
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+git clone https://github.com/seu-repositorio/licitacesso-backend.git
 ```
 
-## Deployment
+---
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+## 2. Instalar dependências
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+npm install
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+---
 
-## Resources
+## 3. Configurar variáveis de ambiente
 
-Check out a few resources that may come in handy when working with NestJS:
+Criar arquivo `.env`:
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+```env
+JWT_SECRET="secret"
 
-## Support
+DATABASE_URL="postgresql://..."
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+FIREBASE_PROJECT_ID="backendlicitacesso"
 
-## Stay in touch
+FIREBASE_CLIENT_EMAIL="firebase-adminsdk..."
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\nSUA_KEY\n-----END PRIVATE KEY-----\n"
 
-## License
+MONGO_URI="mongodb://..."
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+MONGO_DB="licitacesso"
+```
+
+---
+
+# Prisma
+
+## Gerar client Prisma
+
+```bash
+npx prisma generate
+```
+
+---
+
+## Aplicar schema no banco
+
+```bash
+npx prisma db push
+```
+
+ou:
+
+```bash
+npx prisma migrate dev
+```
+
+---
+
+# Executar Projeto
+
+## Desenvolvimento
+
+```bash
+npm run start:dev
+```
+
+---
+
+## Produção
+
+```bash
+npm run build
+npm run start:prod
+```
+
+---
+
+# Deploy
+
+O projeto está hospedado no Render:
+
+```txt
+https://licitacessobackend.onrender.com
+```
+
+---
+
+# Autenticação
+
+A autenticação funciona via Firebase Authentication.
+
+Fluxo:
+
+1. Frontend realiza login Google/Firebase
+2. Frontend recebe `idToken`
+3. Frontend envia `idToken` para API
+4. Backend valida token com Firebase Admin SDK
+5. Backend cria usuário no PostgreSQL caso não exista
+6. Backend retorna JWT próprio da aplicação
+
+---
+
+# Rotas da API
+
+Base URL:
+
+```txt
+https://licitacessobackend.onrender.com
+```
+
+---
+
+# Auth
+
+## Login Firebase
+
+### Endpoint
+
+```http
+POST /auth/firebase
+```
+
+### Body
+
+```json
+{
+  "idToken": "FIREBASE_ID_TOKEN"
+}
+```
+
+### Exemplo
+
+```http
+POST https://licitacessobackend.onrender.com/auth/firebase
+```
+
+### Resposta
+
+```json
+{
+  "access_token": "jwt_token",
+  "user": {
+    "id": 1,
+    "name": "Gabriel Garcia",
+    "email": "gabriel@gmail.com"
+  }
+}
+```
+
+---
+
+# Oportunidades
+
+As rotas abaixo retornam dados analíticos relacionados às oportunidades/licitações.
+
+---
+
+## Por Estado
+
+### Endpoint
+
+```http
+GET /oportunidades/por-estado
+```
+
+### Query Params
+
+| Parâmetro | Tipo | Obrigatório |
+|---|---|---|
+| periodo_inicio | string | sim |
+| periodo_fim | string | sim |
+
+### Exemplo
+
+```http
+GET https://licitacessobackend.onrender.com/oportunidades/por-estado?periodo_inicio=2025-01-01&periodo_fim=2025-12-31
+```
+
+---
+
+## Por Área de Serviço
+
+### Endpoint
+
+```http
+GET /oportunidades/por-area-servico
+```
+
+### Query Params
+
+| Parâmetro | Tipo | Obrigatório |
+|---|---|---|
+| periodo_inicio | string | sim |
+| periodo_fim | string | sim |
+
+### Exemplo
+
+```http
+GET https://licitacessobackend.onrender.com/oportunidades/por-area-servico?periodo_inicio=2025-01-01&periodo_fim=2025-12-31
+```
+
+---
+
+## Por Faixa de Valor
+
+### Endpoint
+
+```http
+GET /oportunidades/por-faixa-valor
+```
+
+### Query Params
+
+| Parâmetro | Tipo | Obrigatório |
+|---|---|---|
+| periodo_inicio | string | sim |
+| periodo_fim | string | sim |
+| faixa_valor | string | não |
+
+### Exemplo
+
+```http
+GET https://licitacessobackend.onrender.com/oportunidades/por-faixa-valor?periodo_inicio=2025-01-01&periodo_fim=2025-12-31
+```
+
+### Exemplo com faixa
+
+```http
+GET https://licitacessobackend.onrender.com/oportunidades/por-faixa-valor?periodo_inicio=2025-01-01&periodo_fim=2025-12-31&faixa_valor=1000-5000
+```
+
+---
+
+## Por Mês
+
+### Endpoint
+
+```http
+GET /oportunidades/por-mes
+```
+
+### Query Params
+
+| Parâmetro | Tipo | Obrigatório |
+|---|---|---|
+| mes | number | sim |
+| ano | number | sim |
+
+### Exemplo
+
+```http
+GET https://licitacessobackend.onrender.com/oportunidades/por-mes?mes=5&ano=2025
+```
+
+---
+
+## Por Situação
+
+### Endpoint
+
+```http
+GET /oportunidades/por-situacao
+```
+
+### Query Params
+
+| Parâmetro | Tipo | Obrigatório |
+|---|---|---|
+| periodo_inicio | string | sim |
+| periodo_fim | string | sim |
+
+### Exemplo
+
+```http
+GET https://licitacessobackend.onrender.com/oportunidades/por-situacao?periodo_inicio=2025-01-01&periodo_fim=2025-12-31
+```
+
+---
+
+## Filtros
+
+### Endpoint
+
+```http
+GET /oportunidades/filtros
+```
+
+### Query Params
+
+| Parâmetro | Tipo | Obrigatório |
+|---|---|---|
+| periodo_inicio | string | sim |
+| periodo_fim | string | sim |
+
+### Exemplo
+
+```http
+GET https://licitacessobackend.onrender.com/oportunidades/filtros?periodo_inicio=2025-01-01&periodo_fim=2025-12-31
+```
+
+---
+
+# Estrutura de Banco de Dados
+
+## PostgreSQL / Prisma
+
+Tabela principal:
+
+```prisma
+model User {
+  id    Int    @id @default(autoincrement())
+  name  String
+  email String @unique
+}
+```
+
+---
+
+# Segurança
+
+- JWT Authentication
+- Firebase Token Validation
+- Prisma ORM
+- Variáveis protegidas via `.env`
+
+---
+
+# Comandos Úteis
+
+## Prisma Studio
+
+```bash
+npx prisma studio
+```
+
+---
+
+## Gerar Build
+
+```bash
+npm run build
+```
+
+---
+
+## Executar Produção
+
+```bash
+npm run start:prod
+```
+
+---
+
+# Observações
+
+- O backend utiliza MongoDB para consultas analíticas.
+- O PostgreSQL/Supabase é utilizado para persistência de usuários.
+- Firebase Authentication é utilizado para autenticação Google.
+
+---
+
+# Autor
+
+Gabriel Garcia
+
+Projeto acadêmico desenvolvido para estudo de:
+
+- autenticação OAuth/Firebase
+- APIs REST
+- NestJS
+- Prisma ORM
+- MongoDB
+- PostgreSQL
+- arquitetura backend moderna
