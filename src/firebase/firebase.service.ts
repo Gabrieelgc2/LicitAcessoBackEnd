@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import { Injectable, OnModuleInit } from '@nestjs/common';
-=======
 import { Injectable, OnModuleInit, Logger } from '@nestjs/common';
->>>>>>> 4259d49 (fix: ajusting code for firebase and formation of code)
 import * as admin from 'firebase-admin';
 
 @Injectable()
@@ -25,7 +21,11 @@ export class FirebaseService implements OnModuleInit {
 
     if (!admin.apps.length) {
       admin.initializeApp({
-        credential: admin.credential.cert({ projectId, clientEmail, privateKey }),
+        credential: admin.credential.cert({
+          projectId,
+          clientEmail,
+          privateKey,
+        }),
       });
     }
   }
