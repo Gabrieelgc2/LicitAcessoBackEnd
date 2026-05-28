@@ -3,11 +3,11 @@ import { createServer } from 'http'
 import { NestFactory } from '@nestjs/core'
 import { ExpressAdapter } from '@nestjs/platform-express'
 
-import express from 'express'
+import express from 'express';
 
-import { AppModule } from '../src/app.module'
+import { AppModule } from '../src/app.module';
 
-const expressApp = express()
+const expressApp = express();
 
 let isInitialized = false
 

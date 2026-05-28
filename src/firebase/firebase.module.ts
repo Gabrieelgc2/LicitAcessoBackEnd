@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Module } from '@nestjs/common';
 import { FirebaseService } from './firebase.service';
 
@@ -5,4 +6,4 @@ import { FirebaseService } from './firebase.service';
   providers: [FirebaseService],
   exports: [FirebaseService],
 })
-export class FirebaseModule {}
+export class FirebaseModule {}  
