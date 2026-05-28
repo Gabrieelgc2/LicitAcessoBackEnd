@@ -53,7 +53,9 @@ export class OportunidadesController {
       
       const dados = await db
         .collection('gold_estado')
-        .find(filtro, { projection: { _id: 0 } })
+        .find(this.filtroPeriodo(periodoInicio, periodoFim), {
+          projection: { _id: 0 },
+        })
         .toArray();
       return { por_estado: dados };
     } catch (error) {
@@ -78,7 +80,9 @@ export class OportunidadesController {
 
       const dados = await db
         .collection('gold_area_de_servico')
-        .find(filtro, { projection: { _id: 0 } })
+        .find(this.filtroPeriodo(periodoInicio, periodoFim), {
+          projection: { _id: 0 },
+        })
         .toArray();
       return { por_area_servico: dados };
     } catch (error) {
@@ -128,7 +132,9 @@ export class OportunidadesController {
 
       const dados = await db
         .collection('gold_situacao')
-        .find(filtro, { projection: { _id: 0 } })
+        .find(this.filtroPeriodo(periodoInicio, periodoFim), {
+          projection: { _id: 0 },
+        })
         .toArray();
       return { por_situacao: dados };
     } catch (error) {
@@ -153,8 +159,10 @@ export class OportunidadesController {
       if (faixaValor) filtro.faixa_valor = faixaValor;
 
       const dados = await db
-        .collection('gold_faixa_de_valor')
-        .find(filtro, { projection: { _id: 0 } })
+        .collection('gold_estado')
+        .find(this.filtroPeriodo(periodoInicio, periodoFim), {
+          projection: { _id: 0 },
+        })
         .toArray();
       return { por_faixa_valor: dados };
     } catch (error) {

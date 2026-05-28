@@ -1,12 +1,12 @@
-import { Module } from '@nestjs/common'
-import { JwtModule } from '@nestjs/jwt'
-import { PassportModule } from '@nestjs/passport'
+import { Module } from '@nestjs/common';
+import { JwtModule } from '@nestjs/jwt';
+import { PassportModule } from '@nestjs/passport';
 
-import { AuthController } from './auth.controller'
-import { AuthService } from './auth.service'
-import { JwtStrategy } from './jwt.strategy'
-import { PrismaModule } from '../prisma/prisma.module'
-import { FirebaseModule } from '../firebase/firebase.module'
+import { AuthController } from './auth.controller';
+import { AuthService } from './auth.service';
+import { JwtStrategy } from './jwt.strategy';
+import { PrismaModule } from '../prisma/prisma.module';
+import { FirebaseModule } from '../firebase/firebase.module';
 
 @Module({
   imports: [
@@ -16,11 +16,11 @@ import { FirebaseModule } from '../firebase/firebase.module'
     JwtModule.register({
       secret: process.env.JWT_SECRET,
       signOptions: {
-        expiresIn: '7d'
-      }
-    })
+        expiresIn: '7d',
+      },
+    }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy]
+  providers: [AuthService, JwtStrategy],
 })
 export class AuthModule {}

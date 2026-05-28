@@ -11,6 +11,8 @@ import { UserDocumentsModule } from './user-documents/user-documents.module';
 import { AlertsModule } from './alerts/alerts.module';
 import { ProposalsModule } from './proposals/proposals.module';
 import { FavoritesModule } from './favorites/favorites.module';
+import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
+import { APP_GUARD } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -22,8 +24,20 @@ import { FavoritesModule } from './favorites/favorites.module';
     AlertsModule,
     ProposalsModule,
     FavoritesModule,
+    ThrottlerModule.forRoot([
+      {
+        ttl: 60000,
+        limit: 100,
+      },
+    ]),
   ],
   controllers: [AppController, OportunidadesController, EditaisController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
+    },
+  ],
 })
 export class AppModule {}

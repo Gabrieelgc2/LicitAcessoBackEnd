@@ -7,3 +7,4 @@ import { FirebaseService } from './firebase.service';
   exports: [FirebaseService],
 })
 export class FirebaseModule {}  
+
