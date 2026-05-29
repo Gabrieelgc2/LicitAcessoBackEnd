@@ -5,6 +5,7 @@ import { FirebaseModule } from './firebase/firebase.module';
 import { AuthModule } from './auth/auth.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { OportunidadesController } from './oportunidades/oportunidades.controller';
+import { EditaisController } from './editais/editais.controller';
 
 @Module({
   imports: [
@@ -12,7 +13,7 @@ import { OportunidadesController } from './oportunidades/oportunidades.controlle
     FirebaseModule,
     AuthModule,
   ],
-  controllers: [AppController, OportunidadesController],
+  controllers: [AppController, OportunidadesController, EditaisController],
   providers: [AppService],
 })
 export class AppModule {}

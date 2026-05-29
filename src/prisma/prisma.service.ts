@@ -7,6 +7,10 @@ export class PrismaService
   implements OnModuleInit
 {
   async onModuleInit() {
-    await this.$connect()
+    try {
+      await this.$connect()
+    } catch (err) {
+      console.warn('[PrismaService] Banco PostgreSQL indisponível — rotas de auth não funcionarão.', err)
+    }
   }
 }
