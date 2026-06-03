@@ -9,7 +9,8 @@ export class AuthController {
 
   @Post('firebase')
   loginFirebase(@Body('idToken') idToken: string) {
-    console.log('[AuthController] /auth/firebase received idToken:', idToken)
+    const maskedToken = idToken ? `${idToken.substring(0, 10)}...[masked]` : 'null';
+    console.log('[AuthController] /auth/firebase received idToken:', maskedToken)
     return this.authService.loginFirebase(idToken)
   }
 
