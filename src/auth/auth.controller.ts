@@ -4,17 +4,25 @@ import { AuthService } from './auth.service'
 
 @Controller('auth')
 export class AuthController {
-  constructor(
-    private authService: AuthService
-  ) {}
+  constructor(private authService: AuthService) {}
 
- @Post('firebase')
-loginFirebase(
-  @Body('idToken')
-  idToken: string
-) {
-  console.log('[AuthController] /auth/firebase received idToken:', idToken);
-  return this.authService
-    .loginFirebase(idToken)
-}
+  @Post('firebase')
+  loginFirebase(@Body('idToken') idToken: string) {
+    console.log('[AuthController] /auth/firebase received idToken:', idToken)
+    return this.authService.loginFirebase(idToken)
+  }
+
+  @Post('cnpj/login')
+  loginCnpj(@Body() body: { cnpj: string; senha: string }) {
+    const cnpjDigits = body.cnpj?.replace(/\D/g, '')
+    return this.authService.loginWithCnpj(cnpjDigits, body.senha)
+  }
+
+  @Post('cnpj/register')
+  registerCnpj(
+    @Body() body: { nomeEmpresa: string; cnpj: string; email: string; senha: string }
+  ) {
+    const cnpjDigits = body.cnpj?.replace(/\D/g, '')
+    return this.authService.registerWithCnpj(body.nomeEmpresa, cnpjDigits, body.email, body.senha)
+  }
 }
