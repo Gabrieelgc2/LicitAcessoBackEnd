@@ -2,8 +2,8 @@ import { Injectable, NotFoundException, ForbiddenException, ConflictException } 
 import { PrismaService } from '../prisma/prisma.service';
 
 export class AddFavoriteDto {
-  bidId: string;
-  objeto_compra: string;
+  bidId!: string;
+  objeto_compra!: string;
   municipio_nome?: string;
   valor_total_estimado?: number;
   situacao_nome?: string;

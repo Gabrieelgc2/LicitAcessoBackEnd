@@ -2,9 +2,9 @@ import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/commo
 import { PrismaService } from '../prisma/prisma.service';
 
 export class CreateAlertDto {
-  type: string;
-  title: string;
-  description: string;
+  type!: string;
+  title!: string;
+  description!: string;
   dateTime?: string;
 }
 

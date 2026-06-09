@@ -6,12 +6,12 @@ import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { JwtStrategy } from './jwt.strategy';
 import { PrismaModule } from '../prisma/prisma.module';
-import { FirebaseModule } from '../firebase/firebase.module';
+import {GoogleAuthService} from "./GoogleAuth/GoogleAuthService";
+import {PrismaService} from "../prisma/prisma.service";
 
 @Module({
   imports: [
     PrismaModule,
-    FirebaseModule,
     PassportModule,
     JwtModule.register({
       secret: process.env.JWT_SECRET,
@@ -21,6 +21,6 @@ import { FirebaseModule } from '../firebase/firebase.module';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy],
+  providers: [AuthService, JwtStrategy, GoogleAuthService, PrismaService],
 })
 export class AuthModule {}
