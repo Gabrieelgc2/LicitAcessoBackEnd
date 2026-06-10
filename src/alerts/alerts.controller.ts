@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Patch, Param, Body, UseGuards, Request } from '@nestjs/common';
+import { Controller, Get, Post, Patch, Param, Body, UseGuards, Request, ParseUUIDPipe } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { AlertsService, CreateAlertDto } from './alerts.service';
 
@@ -23,7 +23,7 @@ export class AlertsController {
   }
 
   @Patch(':id/read')
-  markAsRead(@Request() req: any, @Param('id') id: string) {
+  markAsRead(@Request() req: any, @Param('id', ParseUUIDPipe) id: string) {
     return this.alertsService.markAsRead(req.user.userId, id);
   }
 

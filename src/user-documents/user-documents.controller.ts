@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Delete, Param, Body, UseGuards, Request } from '@nestjs/common';
+import { Controller, Get, Post, Delete, Param, Body, UseGuards, Request, ParseUUIDPipe } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { UserDocumentsService, CreateDocumentDto } from './user-documents.service';
 
@@ -18,7 +18,7 @@ export class UserDocumentsController {
   }
 
   @Delete(':id')
-  deleteDocument(@Request() req: any, @Param('id') id: string) {
+  deleteDocument(@Request() req: any, @Param('id', ParseUUIDPipe) id: string) {
     return this.userDocumentsService.deleteDocument(req.user.userId, id);
   }
 }

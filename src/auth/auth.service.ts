@@ -25,8 +25,8 @@ async loginGoogle(idToken: string) {
       if (!user) {
         user = await this.prisma.user.create({
           data: {
-            name: decodedToken.name || 'Usuário Google',
-            email: decodedToken.email || '',
+            name: googleUser.name || 'Usuário Google',
+            email: googleUser.email || '',
           },
         })
       }

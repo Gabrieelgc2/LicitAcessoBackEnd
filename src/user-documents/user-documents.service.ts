@@ -1,12 +1,30 @@
 import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
+import { IsNotEmpty, IsOptional, IsString, IsNumber } from 'class-validator';
 import { PrismaService } from '../prisma/prisma.service';
 
 export class CreateDocumentDto {
-  name: string;
-  mimeType: string;
-  uploadDate: string;
+  @IsNotEmpty({ message: 'name é obrigatório' })
+  @IsString({ message: 'name deve ser uma string' })
+  name!: string;
+
+  @IsNotEmpty({ message: 'mimeType é obrigatório' })
+  @IsString({ message: 'mimeType deve ser uma string' })
+  mimeType!: string;
+
+  @IsNotEmpty({ message: 'uploadDate é obrigatório' })
+  @IsString({ message: 'uploadDate deve ser uma string' })
+  uploadDate!: string;
+
+  @IsOptional()
+  @IsString({ message: 'status deve ser uma string' })
   status?: string;
+
+  @IsOptional()
+  @IsNumber({}, { message: 'size deve ser um número' })
   size?: number;
+
+  @IsOptional()
+  @IsString({ message: 'content deve ser uma string' })
   content?: string;
 }
 

@@ -1,10 +1,22 @@
 import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import { PrismaService } from '../prisma/prisma.service';
 
 export class CreateAlertDto {
+  @IsNotEmpty({ message: 'type é obrigatório' })
+  @IsString({ message: 'type deve ser uma string' })
   type!: string;
+
+  @IsNotEmpty({ message: 'title é obrigatório' })
+  @IsString({ message: 'title deve ser uma string' })
   title!: string;
+
+  @IsNotEmpty({ message: 'description é obrigatório' })
+  @IsString({ message: 'description deve ser uma string' })
   description!: string;
+
+  @IsOptional()
+  @IsString({ message: 'dateTime deve ser uma string' })
   dateTime?: string;
 }
 

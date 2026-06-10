@@ -1,8 +1,76 @@
-import { Controller, Get, Query, BadRequestException } from '@nestjs/common';
+import { Controller, Get, Query } from '@nestjs/common';
+import { IsNotEmpty, IsString, IsOptional, IsNumberString, Length } from 'class-validator';
 import { MongoClient, Db } from 'mongodb';
 
 const MONGO_URI = process.env.MONGO_URI!;
 const MONGO_DB = process.env.MONGO_DB!;
+
+export class GetPorEstadoDto {
+  @IsNotEmpty({ message: 'periodo_inicio é obrigatório' })
+  @IsString({ message: 'periodo_inicio deve ser uma string' })
+  periodo_inicio!: string;
+
+  @IsNotEmpty({ message: 'periodo_fim é obrigatório' })
+  @IsString({ message: 'periodo_fim deve ser uma string' })
+  periodo_fim!: string;
+
+  @IsOptional()
+  @IsString({ message: 'uf deve ser uma string' })
+  @Length(2, 2, { message: 'uf deve ter exatamente 2 caracteres' })
+  uf?: string;
+}
+
+export class GetPorAreaServicoDto {
+  @IsNotEmpty({ message: 'periodo_inicio é obrigatório' })
+  @IsString({ message: 'periodo_inicio deve ser uma string' })
+  periodo_inicio!: string;
+
+  @IsNotEmpty({ message: 'periodo_fim é obrigatório' })
+  @IsString({ message: 'periodo_fim deve ser uma string' })
+  periodo_fim!: string;
+
+  @IsOptional()
+  @IsString({ message: 'ramo_mei deve ser uma string' })
+  ramo_mei?: string;
+}
+
+export class GetPorMesDto {
+  @IsNotEmpty({ message: 'mes é obrigatório' })
+  @IsNumberString({}, { message: 'mes deve ser numérico' })
+  mes!: string;
+
+  @IsNotEmpty({ message: 'ano é obrigatório' })
+  @IsNumberString({}, { message: 'ano deve ser numérico' })
+  ano!: string;
+}
+
+export class GetPorSituacaoDto {
+  @IsNotEmpty({ message: 'periodo_inicio é obrigatório' })
+  @IsString({ message: 'periodo_inicio deve ser uma string' })
+  periodo_inicio!: string;
+
+  @IsNotEmpty({ message: 'periodo_fim é obrigatório' })
+  @IsString({ message: 'periodo_fim deve ser uma string' })
+  periodo_fim!: string;
+
+  @IsOptional()
+  @IsString({ message: 'situacao_nome deve ser uma string' })
+  situacao_nome?: string;
+}
+
+export class GetPorFaixaValorDto {
+  @IsNotEmpty({ message: 'periodo_inicio é obrigatório' })
+  @IsString({ message: 'periodo_inicio deve ser uma string' })
+  periodo_inicio!: string;
+
+  @IsNotEmpty({ message: 'periodo_fim é obrigatório' })
+  @IsString({ message: 'periodo_fim deve ser uma string' })
+  periodo_fim!: string;
+
+  @IsOptional()
+  @IsString({ message: 'faixa_valor deve ser uma string' })
+  faixa_valor?: string;
+}
 
 @Controller('oportunidades')
 export class OportunidadesController {
@@ -38,14 +106,8 @@ export class OportunidadesController {
   }
 
   @Get('por-estado')
-  async getPorEstado(
-    @Query('periodo_inicio') periodoInicio: string,
-    @Query('periodo_fim') periodoFim: string,
-    @Query('uf') uf?: string,
-  ): Promise<any> {
-    if (!periodoInicio || !periodoFim) {
-      throw new BadRequestException('periodo_inicio e periodo_fim são obrigatórios');
-    }
+  async getPorEstado(@Query() query: GetPorEstadoDto): Promise<any> {
+    const { periodo_inicio: periodoInicio, periodo_fim: periodoFim, uf } = query;
     try {
       const db = await this.getDatabase();
       const filtro: any = this.filtroPeriodo(periodoInicio, periodoFim);
@@ -53,7 +115,7 @@ export class OportunidadesController {
       
       const dados = await db
         .collection('gold_estado')
-        .find(this.filtroPeriodo(periodoInicio, periodoFim), {
+        .find(filtro, {
           projection: { _id: 0 },
         })
         .toArray();
@@ -65,14 +127,8 @@ export class OportunidadesController {
   }
 
   @Get('por-area-servico')
-  async getPorAreaServico(
-    @Query('periodo_inicio') periodoInicio: string,
-    @Query('periodo_fim') periodoFim: string,
-    @Query('ramo_mei') ramoMei?: string,
-  ): Promise<any> {
-    if (!periodoInicio || !periodoFim) {
-      throw new BadRequestException('periodo_inicio e periodo_fim são obrigatórios');
-    }
+  async getPorAreaServico(@Query() query: GetPorAreaServicoDto): Promise<any> {
+    const { periodo_inicio: periodoInicio, periodo_fim: periodoFim, ramo_mei: ramoMei } = query;
     try {
       const db = await this.getDatabase();
       const filtro: any = this.filtroPeriodo(periodoInicio, periodoFim);
@@ -80,7 +136,7 @@ export class OportunidadesController {
 
       const dados = await db
         .collection('gold_area_de_servico')
-        .find(this.filtroPeriodo(periodoInicio, periodoFim), {
+        .find(filtro, {
           projection: { _id: 0 },
         })
         .toArray();
@@ -92,13 +148,8 @@ export class OportunidadesController {
   }
 
   @Get('por-mes')
-  async getPorMes(
-    @Query('mes') mes: string,
-    @Query('ano') ano: string,
-  ): Promise<any> {
-    if (!mes || !ano) {
-      throw new BadRequestException('mes e ano são obrigatórios');
-    }
+  async getPorMes(@Query() query: GetPorMesDto): Promise<any> {
+    const { mes, ano } = query;
     try {
       const db = await this.getDatabase();
       const filtro: any = {};
@@ -117,14 +168,8 @@ export class OportunidadesController {
   }
 
   @Get('por-situacao')
-  async getPorSituacao(
-    @Query('periodo_inicio') periodoInicio: string,
-    @Query('periodo_fim') periodoFim: string,
-    @Query('situacao_nome') situacaoNome?: string,
-  ): Promise<any> {
-    if (!periodoInicio || !periodoFim) {
-      throw new BadRequestException('periodo_inicio e periodo_fim são obrigatórios');
-    }
+  async getPorSituacao(@Query() query: GetPorSituacaoDto): Promise<any> {
+    const { periodo_inicio: periodoInicio, periodo_fim: periodoFim, situacao_nome: situacaoNome } = query;
     try {
       const db = await this.getDatabase();
       const filtro: any = this.filtroPeriodo(periodoInicio, periodoFim);
@@ -132,7 +177,7 @@ export class OportunidadesController {
 
       const dados = await db
         .collection('gold_situacao')
-        .find(this.filtroPeriodo(periodoInicio, periodoFim), {
+        .find(filtro, {
           projection: { _id: 0 },
         })
         .toArray();
@@ -145,14 +190,8 @@ export class OportunidadesController {
 
   // Mantido caso precise das rotas adicionais abaixo. Se não, pode excluí-las.
   @Get('por-faixa-valor')
-  async getPorFaixaValor(
-    @Query('periodo_inicio') periodoInicio: string,
-    @Query('periodo_fim') periodoFim: string,
-    @Query('faixa_valor') faixaValor?: string,
-  ): Promise<any> {
-    if (!periodoInicio || !periodoFim) {
-      throw new BadRequestException('periodo_inicio e periodo_fim são obrigatórios');
-    }
+  async getPorFaixaValor(@Query() query: GetPorFaixaValorDto): Promise<any> {
+    const { periodo_inicio: periodoInicio, periodo_fim: periodoFim, faixa_valor: faixaValor } = query;
     try {
       const db = await this.getDatabase();
       const filtro: any = this.filtroPeriodo(periodoInicio, periodoFim);
@@ -160,7 +199,7 @@ export class OportunidadesController {
 
       const dados = await db
         .collection('gold_estado')
-        .find(this.filtroPeriodo(periodoInicio, periodoFim), {
+        .find(filtro, {
           projection: { _id: 0 },
         })
         .toArray();

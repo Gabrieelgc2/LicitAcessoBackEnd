@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Patch, Param, Body, UseGuards, Request } from '@nestjs/common';
+import { Controller, Get, Post, Patch, Param, Body, UseGuards, Request, ParseUUIDPipe } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { ProposalsService, CreateProposalDto, UpdateProposalDto } from './proposals.service';
 
@@ -18,7 +18,7 @@ export class ProposalsController {
   }
 
   @Patch(':id')
-  updateProposal(@Request() req: any, @Param('id') id: string, @Body() dto: UpdateProposalDto) {
+  updateProposal(@Request() req: any, @Param('id', ParseUUIDPipe) id: string, @Body() dto: UpdateProposalDto) {
     return this.proposalsService.updateProposal(req.user.userId, id, dto);
   }
 }

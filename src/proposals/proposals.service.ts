@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
+import { IsNotEmpty, IsString, IsOptional } from 'class-validator';
 import { PrismaService } from '../prisma/prisma.service';
 
 const DEFAULT_PROPOSALS = [
@@ -11,16 +12,38 @@ const DEFAULT_PROPOSALS = [
 ];
 
 export class CreateProposalDto {
-  name: string;
-  organization: string;
-  date: string;
+  @IsNotEmpty({ message: 'name é obrigatório' })
+  @IsString({ message: 'name deve ser uma string' })
+  name!: string;
+
+  @IsNotEmpty({ message: 'organization é obrigatório' })
+  @IsString({ message: 'organization deve ser uma string' })
+  organization!: string;
+
+  @IsNotEmpty({ message: 'date é obrigatório' })
+  @IsString({ message: 'date deve ser uma string' })
+  date!: string;
+
+  @IsOptional()
+  @IsString({ message: 'status deve ser uma string' })
   status?: string;
+
+  @IsOptional()
+  @IsString({ message: 'bidId deve ser uma string' })
   bidId?: string;
 }
 
 export class UpdateProposalDto {
+  @IsOptional()
+  @IsString({ message: 'status deve ser uma string' })
   status?: string;
+
+  @IsOptional()
+  @IsString({ message: 'name deve ser uma string' })
   name?: string;
+
+  @IsOptional()
+  @IsString({ message: 'organization deve ser uma string' })
   organization?: string;
 }
 
