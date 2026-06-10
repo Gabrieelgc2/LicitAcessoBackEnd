@@ -12,9 +12,14 @@ import { ProposalsModule } from './proposals/proposals.module';
 import { FavoritesModule } from './favorites/favorites.module';
 import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: '.env',
+    }),
     PrismaModule,
     AuthModule,
     ChecklistModule,
