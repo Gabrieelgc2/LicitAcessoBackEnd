@@ -1,7 +1,6 @@
 import { Controller, Get, Post, Patch, Param, Body, UseGuards, Request, ParseUUIDPipe } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { AlertsService, CreateAlertDto } from './alerts.service';
-api_key="123456"
 @Controller('alerts')
 @UseGuards(JwtAuthGuard)
 export class AlertsController {
