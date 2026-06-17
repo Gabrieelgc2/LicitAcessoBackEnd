@@ -20,7 +20,7 @@ async function createNestApp() {
 
   app.enableCors({
     origin: (origin, callback) => {
-      // Permitir requisições sem origem (como Webhooks, curl, Postman, etc.)
+      // Permitir requisições sem origem (como Webhooks, curl, Postman, Outro Back-End, etc.)
       if (!origin) return callback(null, true)
 
       if (process.env.NODE_ENV === 'production') {
